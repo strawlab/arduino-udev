@@ -1,0 +1,37 @@
+#!/usr/bin/env python
+
+import time
+import serial
+import argparse
+
+from arduinoudev import get_device_name, set_device_name
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("device", nargs=1,
+                        help="serial device")
+    parser.add_argument("--baudrate","-b",type=int, required=True,
+                        choices=serial.Serial.BAUDRATES,
+                        help="baud rate")
+    parser.add_argument("--set-name","-s",type=str,
+                        help="set the device name")
+    parser.add_argument("--wait","-w",type=float,default=0,
+                        help="wait this many seconds for the device to settle")
+    args = parser.parse_args()
+
+    #udev passes this as a relative dev name like USBN
+    device = args.device[0].split('/')[-1]
+
+    time.sleep(args.wait)
+
+    ser = serial.Serial(port='/dev/%s'%device, baudrate=args.baudrate, timeout=20.)
+
+    time.sleep(args.wait)
+
+    if args.set_name:
+        set_device_name(ser, args.set_name)
+    else:
+        print get_device_name(ser)
+
+
