@@ -1,9 +1,9 @@
 #the unshielded FTDI cables have difficulty running at full speed
-SUBSYSTEM=="tty", ATTRS{product}=="TTL232R-3V3", ATTRS{idProduct}=="6001", ATTRS{idVendor}=="0403", PROGRAM="/usr/bin/arduino-udev-name -r -w 2 -b 57600 %k", SYMLINK+="%c", GROUP="plugdev"
+SUBSYSTEM=="tty", ATTRS{product}=="TTL232R-3V3", ATTRS{idProduct}=="6001", ATTRS{idVendor}=="0403", PROGRAM="/usr/bin/arduino-udev-name -w 2 -b 57600 %k", SYMLINK+="%c", GROUP="plugdev"
 
 #this is a cheap nano where the lazy people didn't program the serial
-SUBSYSTEM=="tty", ATTRS{product}=="FT232R USB UART", ATTRS{idProduct}=="6001", ATTRS{idVendor}=="0403", PROGRAM="/usr/bin/arduino-udev-name -r -w 2 -b 115200 %k", SYMLINK+="%c", GROUP="plugdev"
+SUBSYSTEM=="tty", ATTRS{product}=="FT232R USB UART", ATTRS{idProduct}=="6001", ATTRS{idVendor}=="0403", PROGRAM="/usr/bin/arduino-udev-name -w 2 -b 115200 %k", SYMLINK+="%c", GROUP="plugdev"
 
 #this is a decent nano
-SUBSYSTEM=="tty", ATTRS{product}=="ARDUINO NANO", ATTRS{idProduct}=="6001", ATTRS{idVendor}=="0403", PROGRAM="/usr/bin/arduino-udev-name -r -w 2 -b 115200 %k", SYMLINK+="%c", GROUP="plugdev"
+SUBSYSTEM=="tty", ATTRS{product}=="ARDUINO NANO", ATTRS{idProduct}=="6001", ATTRS{idVendor}=="0403", PROGRAM="/usr/bin/arduino-udev-name -w 2 -b 115200 %k", SYMLINK+="%c", GROUP="plugdev"
 

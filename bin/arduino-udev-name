@@ -18,8 +18,8 @@ if __name__ == "__main__":
                         help="set the device name")
     parser.add_argument("--wait","-w",type=float,default=0,
                         help="wait this many seconds for the device to settle")
-    parser.add_argument("--reset","-r",action="store_true",
-                        help="reset ardunio before operation")
+    parser.add_argument("--no-reset",action="store_false", dest="reset",
+                        default=True, help="do no reset ardunio before operation")
     parser.add_argument("--verbose", "-v", action="store_true")
     args = parser.parse_args()
 
