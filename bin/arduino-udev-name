@@ -18,6 +18,9 @@ if __name__ == "__main__":
                         help="set the device name")
     parser.add_argument("--wait","-w",type=float,default=0,
                         help="wait this many seconds for the device to settle")
+    parser.add_argument("--reset", action="store_true",
+                        help="reset ardunio before operation")
+    parser.add_argument("--verbose", "-v", action="store_true")
     args = parser.parse_args()
 
     #udev passes this as a relative dev name like USBN
@@ -27,11 +30,23 @@ if __name__ == "__main__":
 
     ser = serial.Serial(port='/dev/%s'%device, baudrate=args.baudrate, timeout=20.)
 
-    time.sleep(args.wait)
+    time.sleep(2.0)
+
+    if args.reset:
+        ser.setDTR(False)
+        time.sleep(0.1)
+        ser.setDTR(True)
+        time.sleep(2.0)
 
     if args.set_name:
         set_device_name(ser, args.set_name)
+        name = get_device_name(ser)
     else:
-        print get_device_name(ser)
+        name = get_device_name(ser)
 
+    if args.verbose:
+        print "%sNAME: %s (%s)" % ("SET " if args.set_name else "", name, " ".join(['0x%X'%ord(c) for c in name]))
+    else:
+        print name
 
+    ser.close()

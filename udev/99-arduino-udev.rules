@@ -1,3 +1,3 @@
 #the unshielded FTDI cables have difficulty running at full speed
-SUBSYSTEM=="tty", ATTRS{product}=="TTL232R-3V3", ATTRS{idProduct}=="6001", ATTRS{idVendor}=="0403", PROGRAM="/usr/bin/arduino-udev-name -w 2 -b 57600 %k", SYMLINK+="%c", GROUP="plugdev"
+SUBSYSTEM=="tty", ATTRS{product}=="TTL232R-3V3", ATTRS{idProduct}=="6001", ATTRS{idVendor}=="0403", PROGRAM="/usr/bin/arduino-udev-name --reset --wait 2 --baudrate 57600 %k", SYMLINK+="%c", GROUP="plugdev"
 
