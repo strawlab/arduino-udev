@@ -109,7 +109,7 @@ udev_state_t UDEV::process(char cmd, char value) {
 }
 
 void UDEV::setup(int pin_led) {
-    udev_state_t ok = read_and_process(4, pin_led, 100);
+    udev_state_t ok = read_and_process(2, pin_led, 100);
     if (ok == ID_WRITTEN)
         read_and_process(1, pin_led, 50);
 }
