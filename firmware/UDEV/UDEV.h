@@ -15,8 +15,9 @@ typedef enum {
 class UDEV {
  public:
   UDEV(HardwareSerial &serial, int eepromBase = 0x0, int maxLen = 8);
-  udev_state_t read_and_process(float block = 0, int pin_led = -1);
+  udev_state_t read_and_process(float block = 0, int pin_led = -1, int delay=50);
   udev_state_t process(char cmd, char value);
+  void setup(int pin_led = -1);
   void begin(void) { _serial.flush(); }
  private:
   HardwareSerial &_serial;

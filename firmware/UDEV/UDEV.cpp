@@ -8,7 +8,7 @@ UDEV::UDEV(HardwareSerial &serial, int eepromBase, int maxLen) :
  {
 }
 
-udev_state_t UDEV::read_and_process(float block, int pin_led) {
+udev_state_t UDEV::read_and_process(float block, int pin_led, int del) {
 
     udev_state_t ok = ID_NOP;
 
@@ -26,8 +26,8 @@ udev_state_t UDEV::read_and_process(float block, int pin_led) {
         if (ms <= 0)
             break;
 
-        delay(100);
-        ms -= 100;
+        delay(del);
+        ms -= del;
 
         if (pin_led >= 0)
             digitalWrite(pin_led, 0x01 ^ digitalRead(pin_led));
@@ -107,4 +107,11 @@ udev_state_t UDEV::process(char cmd, char value) {
 
     return ok;
 }
+
+void UDEV::setup(int pin_led) {
+    udev_state_t ok = read_and_process(4, pin_led, 100);
+    if (ok == ID_WRITTEN)
+        read_and_process(1, pin_led, 50);
+}
+        
 
