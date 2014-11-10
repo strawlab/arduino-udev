@@ -30,8 +30,6 @@ if __name__ == "__main__":
 
     ser = serial.Serial(port='/dev/%s'%device, baudrate=args.baudrate, timeout=20.)
 
-    time.sleep(2.0)
-
     if args.reset:
         ser.setRTS(False)
         ser.setDTR(False)
@@ -39,6 +37,9 @@ if __name__ == "__main__":
         ser.setRTS(True)
         ser.setDTR(True)
         time.sleep(0.5)
+
+    time.sleep(1.0)
+    ser.flushInput()
 
     if args.set_name:
         set_device_name(ser, args.set_name)

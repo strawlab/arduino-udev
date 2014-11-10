@@ -19,7 +19,6 @@ def is_valid_name(name):
     return all([n.isalnum() for n in name]) and len(name) <= 8
 
 def get_device_name(device):
-    device.flushInput()    #discard buffered data
     device.write('N?')
 
     name_and_crc = device.read(10)
@@ -36,7 +35,7 @@ def get_device_name(device):
             print repr(name)
             raise ValueError("CRC doesnt match")
     else:
-        raise ValueError("Name not set")
+        raise ValueError("Name not set: %r" % name)
 
 
 def set_device_name(device,name):
@@ -46,7 +45,6 @@ def set_device_name(device,name):
     #right padd with NULL
     padded_name = ''.join([name[i] if i < len(name) else '\0' for i in range(8)])
 
-    device.flushOutput()    #discard buffered data waiting to write
     device.write('N=')
     device.write(padded_name)
     device.write('%X'%crc8maxim(padded_name))
