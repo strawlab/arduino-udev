@@ -37,8 +37,8 @@ if __name__ == "__main__":
     ser.flushInput()
 
     if args.set_name:
-        set_device_name(ser, args.set_name)
-        name = get_device_name(ser)
+        set_device_name(ser, args.set_name, verbose=args.verbose)
+        name = args.set_name
     else:
         name = get_device_name(ser)
 
