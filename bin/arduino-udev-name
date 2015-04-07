@@ -4,7 +4,7 @@ import time
 import serial
 import argparse
 
-from arduinoudev import get_device_name, set_device_name
+from arduinoudev import open_device, get_device_name, set_device_name, reset_device
 
 if __name__ == "__main__":
     import argparse
@@ -31,14 +31,9 @@ if __name__ == "__main__":
     ser = serial.Serial(port='/dev/%s'%device, baudrate=args.baudrate, timeout=20.)
 
     if args.reset:
-        ser.setRTS(False)
-        ser.setDTR(False)
-        time.sleep(0.25)
-        ser.setRTS(True)
-        ser.setDTR(True)
-        time.sleep(0.5)
+        reset_device(ser)
 
-    time.sleep(1.0)
+    time.sleep(5.0)
     ser.flushInput()
 
     if args.set_name:
