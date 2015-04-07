@@ -36,8 +36,7 @@ def get_device_name(device, maxlen=8):
         if '%X'%crc8maxim(name) == crc:
             return name
         else:
-            print repr(name)
-            raise ValueError("CRC doesnt match")
+            raise ValueError("CRC doesnt match %r (%X != %s)" % (name_and_crc,crc8maxim(name),crc))
     else:
         raise ValueError("Name not set: %r" % name)
 
