@@ -57,8 +57,20 @@ def set_device_name(device,name,maxlen=8,verbose=False):
             print "0x%X" % ord(c),
         print
 
+def reset_device(device):
+    device.setRTS(False)
+    device.setDTR(False)
+    time.sleep(0.25)
+    device.setRTS(True)
+    device.setDTR(True)
+    time.sleep(0.25)
 
-    device.write('N=')
-    device.write(padded_name)
-    device.write('%X'%crc8maxim(padded_name))
+def serial_handshake(port):
+    with open_device(port) as ser:
+        reset_device(ser)
+        time.sleep(5.0)
+        ser.flushInput()
+        name = get_device_name(ser)
+
+    return name.strip('\0')
 
