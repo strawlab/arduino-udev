@@ -11,9 +11,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("device", nargs=1,
                         help="serial device")
-    parser.add_argument("--baudrate","-b",type=int, required=True,
-                        choices=serial.Serial.BAUDRATES,
-                        help="baud rate")
     parser.add_argument("--set-name","-s",type=str,
                         help="set the device name")
     parser.add_argument("--wait","-w",type=float,default=0,
@@ -28,7 +25,7 @@ if __name__ == "__main__":
 
     time.sleep(args.wait)
 
-    ser = serial.Serial(port='/dev/%s'%device, baudrate=args.baudrate, timeout=20.)
+    ser = open_device(port='/dev/%s'%device)
 
     if args.reset:
         reset_device(ser)
@@ -48,3 +45,4 @@ if __name__ == "__main__":
         print name
 
     ser.close()
+
