@@ -1,8 +1,9 @@
 #include "UDEV.h"
 #include <stdlib.h>
 
-UDEV::UDEV(HardwareSerial &serial, int eepromBase, int maxLen) :
+UDEV::UDEV(HardwareSerial &serial, int pinLed, int eepromBase, int maxLen) :
     _serial(serial),
+    _pinLed(pinLed),
     _eepromBase(eepromBase),
     _maxLen(maxLen)
  {
@@ -113,10 +114,16 @@ udev_state_t UDEV::process(char cmd, char value) {
     return ok;
 }
 
-void UDEV::setup(int pin_led) {
-    udev_state_t ok = read_and_process(2, pin_led, 100);
-    if (ok == ID_WRITTEN)
-        read_and_process(1, pin_led, 50);
+void UDEV::serial_handshake(float block) {
+    udev_state_t ok = read_and_process(block, _pinLed, 20);
+    _serial.flush();
+    delay(100);
+    _serial.end();
 }
-        
+
+void UDEV::begin(void) {
+    pinMode(_pinLed, OUTPUT);
+    _serial.begin(9600);
+    _serial.flush();
+}
 

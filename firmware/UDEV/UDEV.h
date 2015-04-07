@@ -14,13 +14,14 @@ typedef enum {
 
 class UDEV {
  public:
-  UDEV(HardwareSerial &serial, int eepromBase = 0x0, int maxLen = 8);
+  UDEV(HardwareSerial &serial, int pinLed = 13, int eepromBase = 0x0, int maxLen = 8);
   udev_state_t read_and_process(float block = 0, int pin_led = -1, int delay=50);
   udev_state_t process(char cmd, char value);
-  void setup(int pin_led = -1);
-  void begin(void) { _serial.flush(); }
+  void serial_handshake(float block = 10);
+  void begin(void);
  private:
   HardwareSerial &_serial;
+  int _pinLed;
   int _eepromBase;
   int _maxLen;
 };
