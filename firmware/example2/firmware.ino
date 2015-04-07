@@ -6,10 +6,12 @@ const int PIN_LED = 2;
 UDEV      udev(Serial);
 
 void setup() {                
-  pinMode(PIN_LED, OUTPUT);
-  Serial.begin(115200);
   udev.begin();
-  udev.setup(PIN_LED);
+  udev.serial_handshake();   //blocks for 10 seconds by default
+
+  //reinit serial comms for application code
+  Serial.begin(115200);
+  pinMode(PIN_LED, OUTPUT);
 }
 
 
