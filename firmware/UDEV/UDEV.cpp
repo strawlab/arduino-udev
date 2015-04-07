@@ -79,8 +79,9 @@ udev_state_t UDEV::process(char cmd, char value) {
             }
             //read the crc
             char crc[2] = {0,0};
-            while( _serial.available() <= 2 );
+            while( !_serial.available() );
             crc[0] = _serial.read();
+            while( !_serial.available() );
             crc[1] = _serial.read();
 
             byte crca = strtoul(crc,NULL,16);
@@ -88,8 +89,9 @@ udev_state_t UDEV::process(char cmd, char value) {
 
             //if the crc is ok write to the eeprom
             if (crca == crcb) {
-                for (int j=0; j<_maxLen; j++)
-                    EEPROM.write( _eepromBase + j, name[j] );
+                for (int j=0; j<_maxLen; j++) {
+                    EEPROM.write( _eepromBase + j, name[j]);
+                }
                 ok = ID_WRITTEN;
             } else {
                 ok = ID_FAIL_CRC;
@@ -100,7 +102,10 @@ udev_state_t UDEV::process(char cmd, char value) {
                 name[j] = c;
                 _serial.write(c);
             }
-            _serial.print(CRC8((byte *)name,_maxLen), HEX);
+
+            unsigned char crc = CRC8((byte *)name,_maxLen);
+            _serial.print(crc,HEX);
+
             ok = ID_READ;
         }
     }
