@@ -65,12 +65,17 @@ def reset_device(device):
     device.setDTR(True)
     time.sleep(0.25)
 
-def serial_handshake(port):
-    with open_device(port) as ser:
-        reset_device(ser)
-        time.sleep(5.0)
-        ser.flushInput()
-        name = get_device_name(ser)
+def serial_handshake(port, error=False):
+    name = ""
+    try:
+        with open_device(port) as ser:
+            reset_device(ser)
+            time.sleep(5.0)
+            ser.flushInput()
+            name = get_device_name(ser)
+    except:
+        if error:
+            raise
 
     return name.strip('\0')
 
