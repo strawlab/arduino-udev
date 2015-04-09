@@ -14,5 +14,5 @@ ser = serial.Serial(port=port,
 while 1:
     c = ser.read()
     if c != 'a':
-        print "ERROR",c
+        print "ERROR",repr(c)
 

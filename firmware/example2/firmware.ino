@@ -2,7 +2,7 @@
 
 #include <UDEV.h>
 
-const int PIN_LED = 2;
+const int PIN_LED = 13;
 UDEV      udev(Serial);
 
 void setup() {                
@@ -16,13 +16,16 @@ void setup() {
 
 
 void loop() {
+    static int i = 0;
     if (Serial.available() >= 2) {
         char cmd = Serial.read();
         char value = Serial.read();
         udev.process(cmd, value);
     }
-    digitalWrite(PIN_LED, 0x01 ^ digitalRead(PIN_LED));
-    delay(20);
+    delay(10);
     Serial.write('a');
+
+    if ((++i % 10) == 0)
+        digitalWrite(PIN_LED, 0x01 ^ digitalRead(PIN_LED));
 }
 
