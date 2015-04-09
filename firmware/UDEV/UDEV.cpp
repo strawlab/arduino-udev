@@ -69,7 +69,6 @@ udev_state_t UDEV::process(char cmd, char value) {
     memset(&name,0,_maxLen);
 
     if (cmd=='N') {
-        int eeprom_idx = 0;
         if (value=='=') {
             //read the string
             for (int i=0; i<_maxLen; i++) {
