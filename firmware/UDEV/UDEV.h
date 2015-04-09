@@ -18,7 +18,7 @@ class UDEV {
   UDEV(HardwareSerial &serial, int pinLed = 13, int eepromBase = 0x0, int maxLen = 8);
   udev_state_t read_and_process(float block = 0, int pin_led = -1, int delay=50);
   udev_state_t process(char cmd, char value);
-  void serial_handshake(float block = 10);
+  void serial_handshake(float block = 5);
   void begin(void);
  private:
   HardwareSerial &_serial;

@@ -1,6 +1,9 @@
 import time
 import serial
 
+class NameNotSetError(Exception):
+    pass
+
 def _crc8maxim(crc, c):
     crc ^= ord(c)
     for i in range(8):
@@ -38,7 +41,7 @@ def get_device_name(device, maxlen=8):
         else:
             raise ValueError("CRC doesnt match %r (%X != %s)" % (name_and_crc,crc8maxim(name),crc))
     else:
-        raise ValueError("Name not set: %r" % name)
+        raise NameNotSetError("Name not set: %r" % name)
 
 def set_device_name(device,name,maxlen=8,verbose=False):
     if not is_valid_name(name):
@@ -70,20 +73,30 @@ def _flush(ser):
         ser.flushInput()
         time.sleep(0.05)
 
-def serial_handshake(port, error=False):
+def serial_handshake(port, nretries=2,error=False):
     name = ""
-    try:
-        with open_device(port) as ser:
-            reset_device(ser)
-            time.sleep(5.0)
-            _flush(ser)
-            name = get_device_name(ser)
-            _flush(ser)
-    except:
-        if error:
-            raise
+    while nretries:
+        try:
+            with open_device(port) as ser:
+                reset_device(ser)
+                time.sleep(2.5)
+                _flush(ser)
+                name = get_device_name(ser)
+                _flush(ser)
+                break
+        except NameNotSetError:
+            pass
+        except:
+            if error:
+                raise
+        nretries -= 1
 
     time.sleep(0.2)
 
-    return name.strip('\0')
+    name = name.strip('\0')
+
+    if (not name) and error:
+        raise ValueError("Name not set")
+
+    return name
 
