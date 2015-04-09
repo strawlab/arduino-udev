@@ -6,10 +6,11 @@
 #include <EEPROM.h>
 
 typedef enum {
-    ID_NOP     = 0x00,
-    ID_WRITTEN = 0x01,
-    ID_READ    = 0x02,
-    ID_FAIL_CRC= 0x03
+    ID_NOP          = 0x00,
+    ID_WRITTEN      = 0x01,
+    ID_READ         = 0x02,
+    ID_FAIL_CRC     = 0x03,
+    ID_FAIL_READ    = 0x04
 } udev_state_t;
 
 class UDEV {

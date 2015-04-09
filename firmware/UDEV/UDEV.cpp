@@ -77,6 +77,7 @@ udev_state_t UDEV::process(char cmd, char value) {
     memset(&name,0,_maxLen);
 
     if (cmd=='N') {
+        ok = ID_FAIL_READ;
         if (value=='=') {
             //read the string
             for (int i=0; i<_maxLen; i++) {
@@ -122,6 +123,9 @@ udev_state_t UDEV::process(char cmd, char value) {
 
 void UDEV::serial_handshake(float block) {
     udev_state_t ok = read_and_process(block, _pinLed, 20);
+
+    digitalWrite(_pinLed, ok != ID_READ);
+
     delay(500);
     _serial.flush();
     _serial.end();
