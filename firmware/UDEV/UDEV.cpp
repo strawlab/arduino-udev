@@ -134,6 +134,6 @@ void UDEV::serial_handshake(float block) {
 void UDEV::begin(void) {
     pinMode(_pinLed, OUTPUT);
     _serial.begin(9600);
-    _serial.flush();
+    delay(50);
 }
 
