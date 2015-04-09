@@ -76,6 +76,16 @@ def _flush(ser):
 def serial_handshake(port, nretries=2,error=False):
     name = ""
     while nretries:
+        #close and open the port again so that the second baud rate
+        #sticks. I think this is due to the bug fixed in recent
+        #kernels by this commit
+        #
+        #commit b26a274f999b4d5eeef50fcc5bf4c07b34964587
+        #USB: ftdi_sio: fix initial baud rate
+        #https://lkml.org/lkml/2012/2/1/574
+        #
+        #which was applied in 3.2.1 and other stable branches. but not
+        #ubuntu 3.0.x... afiact
         try:
             with open_device(port) as ser:
                 reset_device(ser)
