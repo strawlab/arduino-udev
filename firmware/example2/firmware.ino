@@ -23,5 +23,6 @@ void loop() {
     }
     digitalWrite(PIN_LED, 0x01 ^ digitalRead(PIN_LED));
     delay(20);
+    Serial.write('a');
 }
 
