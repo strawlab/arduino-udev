@@ -39,7 +39,6 @@ udev_state_t UDEV::read_and_process(float block, int pin_led, int del) {
         while (!_serial.available());
         char val = _serial.read();
         ok = process(cmd, val);
-        _serial.flush();
     }
 
     return ok;
@@ -116,8 +115,8 @@ udev_state_t UDEV::process(char cmd, char value) {
 
 void UDEV::serial_handshake(float block) {
     udev_state_t ok = read_and_process(block, _pinLed, 20);
+    delay(500);
     _serial.flush();
-    delay(100);
     _serial.end();
 }
 
