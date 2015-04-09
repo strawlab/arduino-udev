@@ -19,19 +19,27 @@ udev_state_t UDEV::read_and_process(float block, int pin_led, int del) {
     int c = -1;
 
     while (true) {
+        if (pin_led >= 0)
+            digitalWrite(pin_led, 0x01 ^ digitalRead(pin_led));
+
+        if (!_serial)
+            goto pause;
+
+        if (!_serial.available())
+            goto pause;
+
         c = _serial.read();
 
         if ((c != -1) && ((char)c == 'N'))
             break;
+
+    pause:
 
         if (ms <= 0)
             break;
 
         delay(del);
         ms -= del;
-
-        if (pin_led >= 0)
-            digitalWrite(pin_led, 0x01 ^ digitalRead(pin_led));
     }
 
     char cmd = c;
