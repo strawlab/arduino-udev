@@ -9,3 +9,6 @@ SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{product}=="ARDUINO NANO", ATTRS
 
 # Arduino Uno
 SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", PROGRAM="/usr/bin/arduino-udev-name -w 2 %k", SYMLINK+="%c", GROUP="plugdev"
+
+# dog hunter AG Arduino Uno Rev3
+SUBSYSTEM=="tty", ATTRS{idVendor}=="2a03", ATTRS{idProduct}=="0043", PROGRAM="/usr/bin/arduino-udev-name -w 2 %k", SYMLINK+="%c", GROUP="plugdev"
