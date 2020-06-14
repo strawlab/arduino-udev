@@ -8,7 +8,7 @@ class NameNotSetError(Exception):
 
 
 def _crc8maxim(crc, c):
-    crc ^= ord(c)
+    crc ^= c
     for i in range(8):
         if crc & 0x1:
             crc = (crc >> 1) ^ 0x8C
@@ -33,18 +33,20 @@ def open_device(port):
 
 
 def get_device_name(device, maxlen=8):
-    device.write("N?")
+    device.write(b"N?")
 
     name_and_crc = device.read(maxlen + 2)
     name = name_and_crc[:maxlen]
+    name = bytearray(name)
+    name_str = name.decode("utf-8") 
     crc = name_and_crc[maxlen:]
 
     # check the name contains some ascii
-    some_ascii = [n.isalnum() for n in name]
+    some_ascii = [n.isalnum() for n in name_str]
     if any(some_ascii):
         # check the crc matches (it is sent as a hex string for readability)
-        if "%X" % crc8maxim(name) == crc:
-            return name
+        if b"%X" % crc8maxim(name) == crc:
+            return name_str
         else:
             raise ValueError(
                 "CRC doesnt match %r (%X != %s)" % (name_and_crc, crc8maxim(name), crc)
@@ -57,17 +59,20 @@ def set_device_name(device, name, maxlen=8, verbose=False):
     if not is_valid_name(name):
         raise ValueError("Invalid name")
 
-    # right padd with NULL
-    padded_name = "".join([name[i] if i < len(name) else "\0" for i in range(maxlen)])
+    name_bytes = bytearray(name, encoding="utf-8")
+    del name
 
-    s = "N="
+    # right pad with NULL
+    padded_name = bytearray([name_bytes[i] if i < len(name_bytes) else 0 for i in range(maxlen)])
+
+    s = b"N="
     s += padded_name
-    s += "%X" % crc8maxim(padded_name)
+    s += b"%X" % crc8maxim(padded_name)
     device.write(s)
     if verbose:
-        print("RAW: ", end="")
+        print("RAW:", end=" ")
         for c in s:
-            print("0x%X" % ord(c), end="")
+            print("0x%X" % c, end=" ")
         print()
 
 
