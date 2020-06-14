@@ -1,3 +1,4 @@
 build
 MANIFEST
 dist
+src/arduino_udev.egg-info
