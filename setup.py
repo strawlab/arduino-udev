@@ -10,11 +10,10 @@ setup(name='arduino-udev',
       description="Get and set information by querying serial devices",
       long_description=long_description,
       long_description_content_type='text/markdown',
-      version='0.2.4',
+      version='0.2.5',
       py_modules=['arduinoudev'],
       package_dir = {'': 'src'},
       url = "https://github.com/strawlab/arduino-udev",
       maintainer = "Andrew Straw",
       maintainer_email = "strawman@astraw.com",
       )
-
