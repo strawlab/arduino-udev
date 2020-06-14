@@ -18,6 +18,18 @@ setup(
     py_modules=["arduinoudev"],
     package_dir={"": "src"},
     url="https://github.com/strawlab/arduino-udev",
+    license="MIT",
     maintainer="Andrew Straw",
     maintainer_email="strawman@astraw.com",
+    classifiers=[
+        "Development Status :: 5 - Production/Stable",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+    ],
 )
