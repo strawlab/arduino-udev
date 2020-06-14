@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import time
 import serial
 import argparse
@@ -40,9 +41,9 @@ if __name__ == "__main__":
         name = get_device_name(ser)
 
     if args.verbose:
-        print "%sNAME: %s (%s)" % ("SET " if args.set_name else "", name, " ".join(['0x%X'%ord(c) for c in name]))
+        print("%sNAME: %s (%s)" % ("SET " if args.set_name else "", name, " ".join(['0x%X'%ord(c) for c in name])))
     else:
-        print name
+        print(name)
 
     ser.close()
 

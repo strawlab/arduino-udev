@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import sys
 
 import arduinoudev
@@ -6,7 +8,7 @@ import serial
 port = sys.argv[1]
 
 name = arduinoudev.serial_handshake(port, error=True)
-print name
+print(name)
 
 ser = serial.Serial(port=port,
                     timeout=0.1,
@@ -14,5 +16,5 @@ ser = serial.Serial(port=port,
 while 1:
     c = ser.read()
     if c != 'a':
-        print "ERROR",repr(c)
+        print("ERROR",repr(c))
 

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import time
 import serial
 
@@ -46,7 +47,7 @@ def get_device_name(device, maxlen=8):
 def set_device_name(device,name,maxlen=8,verbose=False):
     if not is_valid_name(name):
         raise ValueError("Invalid name")
-    
+
     #right padd with NULL
     padded_name = ''.join([name[i] if i < len(name) else '\0' for i in range(maxlen)])
 
@@ -55,10 +56,10 @@ def set_device_name(device,name,maxlen=8,verbose=False):
     s += '%X'%crc8maxim(padded_name)
     device.write(s)
     if verbose:
-        print "RAW: ",
+        print("RAW: ", end='')
         for c in s:
-            print "0x%X" % ord(c),
-        print
+            print("0x%X" % ord(c), end='')
+        print()
 
 def reset_device(device):
     device.setRTS(False)
